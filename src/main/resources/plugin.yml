@@ -1,0 +1,13 @@
+main: org.rembu.PluginHell
+name: PluginHell
+version: 0.0.1
+
+commands:
+  cupcakke:
+    description: "floptropica"
+  jiafei:
+    description: "screams aesthetically"
+  item_orbit:
+    description: "causes three sword item displays to orbit the command executor"
+    item: IRON_SWORD
+    items: 3
