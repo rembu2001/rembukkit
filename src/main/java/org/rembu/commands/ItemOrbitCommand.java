@@ -57,22 +57,31 @@ public class ItemOrbitCommand implements CommandExecutor, Listener {
             sender.sendMessage("only players may use this command.");
             return true;
         }
-        final ItemDisplay[] items = new ItemDisplay[3];
+        final ItemDisplay[] items = new ItemDisplay[6];
         final Location playerLocation = player.getLocation();
 
         for (int i = 0; i < 3; i++) {
             int finalI = i;
             items[i] = playerLocation.getWorld().spawn(playerLocation.clone(), ItemDisplay.class, (spawnedDisplay) -> {
-                final Vector3f    translation   = new Vector3f(1F, 0F, 0F);
-                final AxisAngle4f leftRotation  = new AxisAngle4f();
-                final Vector3f    scale         = new Vector3f(1F, 1F, 1F);
-                final AxisAngle4f rightRotation = new AxisAngle4f();
 
-                final Transformation xform = new Transformation(translation, leftRotation, scale, rightRotation);
+                spawnedDisplay.setRotation(-180f + finalI * 120f, 0);
+
+                // final Vector3f    translation   = new Vector3f(1F, 1F, 0F);
+                // final AxisAngle4f leftRotation  = new AxisAngle4f();
+                // final Vector3f    scale         = new Vector3f(1F, 1F, 1F);
+                // final AxisAngle4f rightRotation = new AxisAngle4f();
+
+                // final Transformation xform = new Transformation(translation, leftRotation, scale, rightRotation);
 
                 spawnedDisplay.setItemStack(new ItemStack(Material.IRON_SWORD));
+                // spawnedDisplay.setTransformation(xform);
+                // spawnedDisplay.setInterpolationDuration(40);
+                // spawnedDisplay.setInterpolationDelay(-1);
+                Transformation xform = spawnedDisplay.getTransformation();
+                xform.getTranslation().set(new Vector3f(1f, 1f, 0f));
+                xform.getLeftRotation().set(new AxisAngle4f((float) Math.toRadians(90d), 1f, 0f, 0f));
+                xform.getRightRotation().set(new AxisAngle4f((float) Math.toRadians(-135d), 0f, 0f, 1f));
                 spawnedDisplay.setTransformation(xform);
-                spawnedDisplay.setRotation(-180f + finalI * 120f,0);
                 sender.sendMessage("Spawned a new sword.");
             });
             orbitingItems.put(player.getUniqueId(), items);
